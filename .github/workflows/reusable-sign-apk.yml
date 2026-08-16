@@ -39,17 +39,17 @@ jobs:
               afterEvaluate { project ->
                   if (project.plugins.hasPlugin("com.android.application")) {
                       def androidExt = project.extensions.findByName("android")
-                      def ksPath = System.getenv("ANDROID_KEYSTORE_PATH")
-                      def ksPass = System.getenv("ANDROID_KEYSTORE_PASSWORD")
-                      def keyAlias = System.getenv("ANDROID_KEY_ALIAS")
-                      def keyPass = System.getenv("ANDROID_KEY_PASSWORD")
-                      if (ksPath && ksPass && keyAlias && keyPass) {
+                      def envPath = System.getenv("ANDROID_KEYSTORE_PATH")
+                      def envStorePass = System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                      def envAlias = System.getenv("ANDROID_KEY_ALIAS")
+                      def envKeyPass = System.getenv("ANDROID_KEY_PASSWORD")
+                      if (envPath && envStorePass && envAlias && envKeyPass) {
                           androidExt.signingConfigs {
                               release {
-                                  storeFile new File(ksPath)
-                                  storePassword ksPass
-                                  keyAlias keyAlias
-                                  keyPassword keyPass
+                                  storeFile new File(envPath)
+                                  storePassword envStorePass
+                                  keyAlias envAlias
+                                  keyPassword envKeyPass
                               }
                           }
                           androidExt.buildTypes.release.signingConfig = androidExt.signingConfigs.release
