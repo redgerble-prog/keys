@@ -1,0 +1,26 @@
+// =====================================================================
+// ANDROID SIGNING CONFIG (app/build.gradle)
+// Copy the signingConfigs block and the release buildType block into
+// your app/build.gradle file. Delete the old buildTypes { release { } }
+// block if one already exists.
+// =====================================================================
+
+android {
+    signingConfigs {
+        release {
+            // Path to the keystore decoded in the GitHub Actions workflow.
+            // On the workflow machine it is at $GITHUB_WORKSPACE/release.keystore.
+            storeFile file(System.getenv("ANDROID_KEYSTORE_PATH") ?: "release.keystore")
+            storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("ANDROID_KEY_ALIAS")
+            keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+}
